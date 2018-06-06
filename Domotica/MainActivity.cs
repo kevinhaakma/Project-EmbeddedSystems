@@ -117,7 +117,7 @@ namespace Domotica
                         timerSockets.Interval = 10000 / Convert.ToInt32(editInterval.Text);
             };
 
-            // timer object, check Arduino state
+            // timer object, check Arduino state POGGERS
             // Only one command can be serviced in an timer tick, schedule from list
             timerSockets = new System.Timers.Timer() { Interval = 1000, Enabled = false }; // Interval >= 750
             timerSockets.Elapsed += (obj, args) =>
