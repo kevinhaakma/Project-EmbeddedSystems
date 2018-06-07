@@ -139,8 +139,10 @@ void switchDefault(byte actionDevice, bool state)
 {   
    apa3Transmitter.sendUnit(actionDevice, state);          // APA3 Kaku (0/1/2, high/low)
    pinState[actionDevice] = state;    
+   if(state){server.write(" ON\n");}
+   else{server.write("OFF\n");}
    //Serial.println((String)"sendunitsettings: " + actionDevice + (String)" " + state);            
-   delay(100);
+   //delay(100);
 }
 
 // Implementation of (simple) protocol between app and Arduino
@@ -174,18 +176,18 @@ void executeCommand(char cmd)
             break;
             
          case 'x': //toggle device 0
-            if (pinState[0]) { switchDefault(0,false); server.write("OFF\n"); Serial.println("Set 0 state to \"OFF\""); }
-            else { switchDefault(0,true); server.write(" ON\n"); Serial.println("Set 0 state to \"ON\"");}             
+            if (pinState[0]) { switchDefault(0,false); Serial.println("Set 0 state to \"OFF\""); }
+            else { switchDefault(0,true); Serial.println("Set 0 state to \"ON\"");}             
             break;
             
          case 'y': //toggle device 1
-            if (pinState[1]) { switchDefault(1,false); server.write("OFF\n"); Serial.println("Set 1 state to \"OFF\"");}
-            else { switchDefault(1,true); server.write(" ON\n"); Serial.println("Set 1 state to \"ON\"");}             
+            if (pinState[1]) { switchDefault(1,false); Serial.println("Set 1 state to \"OFF\"");}
+            else { switchDefault(1,true); Serial.println("Set 1 state to \"ON\"");}             
             break;
             
          case 'z': //toggle device 2
-            if (pinState[2]) { switchDefault(2,false); server.write("OFF\n"); Serial.println("Set 2 state to \"OFF\"");}
-            else { switchDefault(2,true); server.write(" ON\n"); Serial.println("Set 2 state to \"ON\"");}              
+            if (pinState[2]) { switchDefault(2,false); Serial.println("Set 2 state to \"OFF\"");}
+            else { switchDefault(2,true); Serial.println("Set 2 state to \"ON\"");}              
             break;
             
          default:
