@@ -89,7 +89,7 @@
             android:layout_alignParentLeft="true"
             android:backgroundTint="#add8e6ff" />
         <Button
-            android:text="@string/button_pin_state_text"
+            android:text="Change all"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editTextIPPort"

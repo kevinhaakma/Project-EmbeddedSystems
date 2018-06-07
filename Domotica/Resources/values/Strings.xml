@@ -10,7 +10,7 @@
   <string name="ip_port_text">IP Port</string>
   <string name="ip_port_value">3300</string>
   <string name="button_connect_text">Connect</string>
-  <string name="button_pin_state_text">Change State</string>
+  <string name="button_pin_state_text">Change All</string>
   <string name="pin_state_text">Arduino Pin state</string>
   <string name="change_pin_state_value">OFF</string>
   <string name="sensor_text">Sensor value</string>

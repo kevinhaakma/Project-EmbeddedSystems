@@ -191,7 +191,13 @@ namespace Domotica
             {
                 buttonChangePinState.Click += (sender, e) =>
                 {
-                    socket.Send(Encoding.ASCII.GetBytes("t"));                 // Send toggle-command to the Arduino
+                    UpdateGUI(executeCommand(commandList[0].Item1), commandList[0].Item2);
+                    UpdateGUI(executeCommand(commandList[1].Item1), commandList[1].Item2);
+                    UpdateGUI(executeCommand(commandList[2].Item1), commandList[2].Item2);
+
+                    UpdateGUI(executeCommand(commandList[2].Item1), commandList[2].Item2);
+                    UpdateGUI(executeCommand(commandList[1].Item1), commandList[1].Item2);
+                    UpdateGUI(executeCommand(commandList[0].Item1), commandList[0].Item2);
                 };
             }
         }
