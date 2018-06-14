@@ -19,18 +19,13 @@ namespace Digital_Dash_Droid
         private BluetoothAdapter btAdapter;
         private BluetoothSocket socket;
 
-        private int Count = 0;
-
         private InputStreamReader InStream;
         private BufferedReader buffer;
-
-        private System.Timers.Timer timer = new System.Timers.Timer();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
             countText = FindViewById<TextView>(Resource.Id.countText);
@@ -43,8 +38,6 @@ namespace Digital_Dash_Droid
                 btAdapter.Enable();
 
             Connect();
-
-            Button button = FindViewById<Button>(Resource.Id.button);
 
             Thread thread = new Thread(() =>
             {
@@ -68,20 +61,6 @@ namespace Digital_Dash_Droid
 
             UiThread.IsBackground = true;
             UiThread.Start();
-
-            /*
-            timer.Interval = 400;
-
-            timer.Enabled = true;
-
-            button.Click += delegate
-            {
-                timer.Stop();
-            };
-
-            timer.Elapsed += BeginListen; */
-
-
         }
 
         public bool Connect()
@@ -102,7 +81,7 @@ namespace Digital_Dash_Droid
                     }
                 }
             }
-
+            
             socket = result.CreateInsecureRfcommSocketToServiceRecord(uuid);
             socket.Connect();
 
@@ -113,13 +92,12 @@ namespace Digital_Dash_Droid
             return true;
         }
 
-
         public string GetData()
         {
-            return buffer.Read().ToString();
+            return buffer.ReadLine();
         }
 
-        public void BeginListen(Object source, System.Timers.ElapsedEventArgs e)
+        /*public void BeginListen()
         {
             if (buffer.Ready())
             {
@@ -163,7 +141,7 @@ namespace Digital_Dash_Droid
                 }
             }
             countText.Text = Count++.ToString();
-        }
+        }*/
     }
 }
 
