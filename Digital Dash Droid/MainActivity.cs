@@ -13,14 +13,13 @@ namespace Digital_Dash_Droid
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        private TextView outputText;
-        private TextView countText;
-
-        private BluetoothAdapter btAdapter;
-        private BluetoothSocket socket;
-
-        private InputStreamReader InStream;
-        private BufferedReader buffer;
+        private TextView TPSText;
+        private TextView RPMText;
+        private TextView IATText;
+        private TextView VSSText;
+        private TextView VOLTText;
+        private TextView MAPText;
+        private TextView AFRText;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -28,22 +27,23 @@ namespace Digital_Dash_Droid
 
             SetContentView(Resource.Layout.activity_main);
 
-            countText = FindViewById<TextView>(Resource.Id.countText);
-            outputText = FindViewById<TextView>(Resource.Id.output);
+            Bluetooth bluetooth = new Bluetooth();
 
-            string data = null;
-            btAdapter = BluetoothAdapter.DefaultAdapter;
+            string[] output = new string[7];
 
-            if (!btAdapter.IsEnabled)
-                btAdapter.Enable();
-
-            Connect();
+            TPSText = FindViewById<TextView>(Resource.Id.TPS);
+            RPMText = FindViewById<TextView>(Resource.Id.RPM);
+            IATText = FindViewById<TextView>(Resource.Id.IAT);
+            VSSText = FindViewById<TextView>(Resource.Id.VSS);
+            VOLTText = FindViewById<TextView>(Resource.Id.VOLT);
+            MAPText = FindViewById<TextView>(Resource.Id.MAP);
+            AFRText = FindViewById<TextView>(Resource.Id.AFR);
 
             Thread thread = new Thread(() =>
             {
                 while (true)
                 {
-                    data = GetData();
+                    output = bluetooth.GetData();
                 }
             });
 
@@ -51,10 +51,27 @@ namespace Digital_Dash_Droid
             {
                 while (true)
                 {
-                    RunOnUiThread(() => outputText.Text = data);
+                    RunOnUiThread(() =>
+                    {
+                        if (!output[0].Contains("_") || output[0] == null)
+                        {
+                            TPSText.Text = "TPS: " + output[0] + "%";
+                            RPMText.Text = "RPM: " + output[1];
+                            IATText.Text = "IAT: " + output[2] + " °C";
+                            VSSText.Text = "VSS: " + output[3] + " KM/H";
+                            VOLTText.Text = "VOLT: " + output[4];
+                            MAPText.Text = "MAP: " + output[5] + " kPa";
+                            AFRText.Text = "AFR: " + output[6];
+                        }
+                        else
+                            TPSText.Text = output[0];
+                    });
+
                     Thread.Sleep(100);
                 }
             });
+
+            Thread.Sleep(1000);
 
             thread.IsBackground = true;
             thread.Start();
@@ -62,86 +79,5 @@ namespace Digital_Dash_Droid
             UiThread.IsBackground = true;
             UiThread.Start();
         }
-
-        public bool Connect()
-        {
-            string deviceName = "HC-05";
-            UUID uuid = UUID.FromString("00001101-0000-1000-8000-00805f9b34fb");
-            BluetoothDevice result = null;
-
-            var devices = BluetoothAdapter.DefaultAdapter.BondedDevices;
-            if (devices != null)
-            {
-                foreach (BluetoothDevice device in devices)
-                {
-                    if (deviceName == device.Name)
-                    {
-                        result = device;
-                        break;
-                    }
-                }
-            }
-            
-            socket = result.CreateInsecureRfcommSocketToServiceRecord(uuid);
-            socket.Connect();
-
-            btAdapter.CancelDiscovery();
-
-            InStream = new InputStreamReader(socket.InputStream);
-            buffer = new BufferedReader(InStream);
-            return true;
-        }
-
-        public string GetData()
-        {
-            return buffer.ReadLine();
-        }
-
-        /*public void BeginListen()
-        {
-            if (buffer.Ready())
-            {
-                char[] buffer = new char[32];
-                string[] output = new string[7];
-                InStream.Read(buffer, 0, buffer.Length);
-
-                bool skip = false;
-                byte value = 0;
-
-                foreach (char c in buffer)
-                {
-                    if (c == '\\')
-                    {
-                        skip = true;
-                        continue;
-                    }
-                    else if (skip == true)
-                    {
-                        skip = false;
-                        continue;
-                    }
-                    else if (c == ';')
-                    {
-                        value++;
-                        continue;
-                    }
-                    else
-                    {
-                        output[value] += c;
-                    }
-                }
-
-                if (output[0] != "")
-                {
-                    outputText.Text = "";
-                    foreach (string val in output)
-                    {
-                        outputText.Text += val + '*';
-                    }
-                }
-            }
-            countText.Text = Count++.ToString();
-        }*/
     }
 }
-
