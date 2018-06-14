@@ -6,6 +6,7 @@ using Android.Widget;
 using Java.IO;
 using Java.Util;
 using System;
+using System.Threading;
 
 namespace Digital_Dash_Droid
 {
@@ -35,7 +36,7 @@ namespace Digital_Dash_Droid
             countText = FindViewById<TextView>(Resource.Id.countText);
             outputText = FindViewById<TextView>(Resource.Id.output);
 
-            int Count = 0;
+            string data = null;
             btAdapter = BluetoothAdapter.DefaultAdapter;
 
             if (!btAdapter.IsEnabled)
@@ -45,6 +46,30 @@ namespace Digital_Dash_Droid
 
             Button button = FindViewById<Button>(Resource.Id.button);
 
+            Thread thread = new Thread(() =>
+            {
+                while (true)
+                {
+                    data = GetData();
+                }
+            });
+
+            Thread UiThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    RunOnUiThread(() => outputText.Text = data);
+                    Thread.Sleep(100);
+                }
+            });
+
+            thread.IsBackground = true;
+            thread.Start();
+
+            UiThread.IsBackground = true;
+            UiThread.Start();
+
+            /*
             timer.Interval = 400;
 
             timer.Enabled = true;
@@ -54,7 +79,7 @@ namespace Digital_Dash_Droid
                 timer.Stop();
             };
 
-            timer.Elapsed += BeginListen;
+            timer.Elapsed += BeginListen; */
 
 
         }
@@ -88,6 +113,11 @@ namespace Digital_Dash_Droid
             return true;
         }
 
+
+        public string GetData()
+        {
+            return buffer.Read().ToString();
+        }
 
         public void BeginListen(Object source, System.Timers.ElapsedEventArgs e)
         {
