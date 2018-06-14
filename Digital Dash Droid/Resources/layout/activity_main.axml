@@ -7,47 +7,18 @@
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:minWidth="25px"
-    android:minHeight="25px">
-    <TextView
-        android:text="TPS"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+    android:minHeight="25px"
+    android:id="@+id/linearLayout1">
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/TPS" />
+        android:id="@+id/progressBar2" />
     <TextView
-        android:text="RPM"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Loading..."
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/RPM" />
-    <TextView
-        android:text="IAT"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/IAT" />
-    <TextView
-        android:text="VSS"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/VSS" />
-    <TextView
-        android:text="VOLT"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/VOLT" />
-    <TextView
-        android:text="MAP"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/MAP" />
-    <TextView
-        android:text="AFR"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/AFR" />
+        android:id="@+id/Status"
+        android:textAlignment="center" />
 </LinearLayout>

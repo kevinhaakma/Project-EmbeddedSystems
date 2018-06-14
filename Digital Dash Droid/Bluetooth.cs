@@ -6,9 +6,8 @@ using System;
 
 namespace Digital_Dash_Droid
 {
-    class Bluetooth
+    public class Bluetooth
     {
-
         private BluetoothAdapter btAdapter;
         private BluetoothSocket socket;
 
@@ -39,13 +38,20 @@ namespace Digital_Dash_Droid
                 }
             }
 
-            socket = result.CreateInsecureRfcommSocketToServiceRecord(uuid);
+            BluetoothSocket tmp = result.CreateInsecureRfcommSocketToServiceRecord(uuid);
+            socket = tmp;
+            
             socket.Connect();
 
             btAdapter.CancelDiscovery();
 
             InStream = new InputStreamReader(socket.InputStream);
             buffer = new BufferedReader(InStream);
+        }
+
+        public bool IsConnected()
+        {
+            return socket.IsConnected;
         }
 
         public string[] GetData()

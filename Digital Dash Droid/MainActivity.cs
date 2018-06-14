@@ -1,11 +1,9 @@
 ﻿using Android.App;
-using Android.Bluetooth;
+using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Widget;
-using Java.IO;
-using Java.Util;
-using System;
 using System.Threading;
 
 namespace Digital_Dash_Droid
@@ -13,71 +11,62 @@ namespace Digital_Dash_Droid
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        private TextView TPSText;
-        private TextView RPMText;
-        private TextView IATText;
-        private TextView VSSText;
-        private TextView VOLTText;
-        private TextView MAPText;
-        private TextView AFRText;
+        public static Bluetooth bluetooth = new Bluetooth();
+        public static Thread thread;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.activity_main);
 
-            Bluetooth bluetooth = new Bluetooth();
+            TextView statusText = FindViewById<TextView>(Resource.Id.Status);
 
-            string[] output = new string[7];
-
-            TPSText = FindViewById<TextView>(Resource.Id.TPS);
-            RPMText = FindViewById<TextView>(Resource.Id.RPM);
-            IATText = FindViewById<TextView>(Resource.Id.IAT);
-            VSSText = FindViewById<TextView>(Resource.Id.VSS);
-            VOLTText = FindViewById<TextView>(Resource.Id.VOLT);
-            MAPText = FindViewById<TextView>(Resource.Id.MAP);
-            AFRText = FindViewById<TextView>(Resource.Id.AFR);
-
-            Thread thread = new Thread(() =>
+            thread = new Thread(() =>
             {
                 while (true)
                 {
-                    output = bluetooth.GetData();
-                }
-            });
-
-            Thread UiThread = new Thread(() =>
-            {
-                while (true)
-                {
-                    RunOnUiThread(() =>
+                    if (bluetooth.GetData()[0].Contains("E") || bluetooth.GetData()[0] == null)
                     {
-                        if (!output[0].Contains("_") || output[0] == null)
+                        if (bluetooth.GetData()[0].Contains("2"))
                         {
-                            TPSText.Text = "TPS: " + output[0] + "%";
-                            RPMText.Text = "RPM: " + output[1];
-                            IATText.Text = "IAT: " + output[2] + " °C";
-                            VSSText.Text = "VSS: " + output[3] + " KM/H";
-                            VOLTText.Text = "VOLT: " + output[4];
-                            MAPText.Text = "MAP: " + output[5] + " kPa";
-                            AFRText.Text = "AFR: " + output[6];
+                            RunOnUiThread(() =>
+                            {
+                                //no dlc connected
+                                statusText.Text = "No Data-Link connected";
+                                statusText.SetTextColor(Color.Red);
+                            });
+                            Thread.Sleep(100);
                         }
-                        else
-                            TPSText.Text = output[0];
-                    });
 
-                    Thread.Sleep(100);
+                        else if (bluetooth.GetData()[0].Contains("3"))
+                        {
+                            RunOnUiThread(() =>
+                            {
+                                statusText.Text = "Please turn on your vehicle";
+                                statusText.SetTextColor(Color.Orange);
+                            });
+                            Thread.Sleep(100);
+                        }
+
+                        else
+                        {
+                            //other error
+                            continue;
+                        }
+                    }
+
+                    else
+                    {
+                        var intent = new Intent(this, typeof(SecondActivity));
+                        Thread.Sleep(500);
+                        StartActivity(intent);
+                        Thread.CurrentThread.Abort();
+                    }
                 }
             });
-
-            Thread.Sleep(1000);
 
             thread.IsBackground = true;
             thread.Start();
-
-            UiThread.IsBackground = true;
-            UiThread.Start();
         }
     }
 }
