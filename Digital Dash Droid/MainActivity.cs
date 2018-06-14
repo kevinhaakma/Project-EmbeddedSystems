@@ -6,10 +6,6 @@ using Android.Widget;
 using Java.IO;
 using Java.Util;
 using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Digital_Dash_Droid
 {
