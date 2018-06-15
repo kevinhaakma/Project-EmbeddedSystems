@@ -23,13 +23,15 @@ namespace Digital_Dash_Droid
 
             thread = new Thread(() =>
             {
+                string[] output = new string[7];
                 while (true)
                 {
+                    output = bluetooth.GetData();
                     bool value = false;
-                    if (bluetooth.GetData()[0].Contains("E") && bluetooth.GetData()[0] != null)
+                    if (output[0].Contains("E") && output[0] != null)
                     {
                         value = false;
-                        if (bluetooth.GetData()[0].Contains("2"))
+                        if (output[0].Contains("2"))
                         {
                             RunOnUiThread(() =>
                             {
@@ -40,7 +42,7 @@ namespace Digital_Dash_Droid
                             Thread.Sleep(100);
                         }
 
-                        else if (bluetooth.GetData()[0].Contains("3"))
+                        else if (output[0].Contains("3"))
                         {
                             RunOnUiThread(() =>
                             {
