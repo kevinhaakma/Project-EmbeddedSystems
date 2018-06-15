@@ -13,41 +13,60 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/TPS" />
+        android:id="@+id/TPS"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
     <TextView
         android:text="RPM"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/RPM" />
+        android:id="@+id/RPM"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar1" />
     <TextView
         android:text="IAT"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/IAT" />
+        android:id="@+id/IAT"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
     <TextView
         android:text="VSS"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/VSS" />
+        android:id="@+id/VSS"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
     <TextView
         android:text="VOLT"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/VOLT" />
+        android:id="@+id/VOLT"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
     <TextView
         android:text="MAP"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/MAP" />
+        android:id="@+id/MAP"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
     <TextView
         android:text="AFR"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/AFR" />
+        android:id="@+id/AFR"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
 </LinearLayout>

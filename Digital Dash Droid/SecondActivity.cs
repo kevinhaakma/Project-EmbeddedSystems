@@ -44,6 +44,9 @@ namespace Digital_Dash_Droid
             MAPText = FindViewById<TextView>(Resource.Id.MAP);
             AFRText = FindViewById<TextView>(Resource.Id.AFR);
 
+            ProgressBar progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar1);
+            progressBar.Max = 7000;
+
             Thread = new Thread(() =>
             {
                 while (true)
@@ -56,35 +59,41 @@ namespace Digital_Dash_Droid
                         {
                             RunOnUiThread(() =>
                             {
-                                TPSText.Text = "TPS: " + output[0] + "%";
+                                //TPSText.Text = "TPS: " + output[0] + "%";
+                                progressBar.Progress = Convert.ToInt32(output[1]);
                                 RPMText.Text = "RPM: " + output[1];
-                                IATText.Text = "IAT: " + output[2] + " °C";
-                                VSSText.Text = "VSS: " + output[3] + " KM/H";
-                                VOLTText.Text = "VOLT: " + output[4];
-                                MAPText.Text = "MAP: " + output[5] + " kPa";
-                                AFRText.Text = "AFR: " + output[6];
+                                //IATText.Text = "IAT: " + output[2] + " °C";
+                                //VSSText.Text = "VSS: " + output[3] + " KM/H";
+                                //VOLTText.Text = "VOLT: " + output[4];
+                                //MAPText.Text = "MAP: " + output[5] + " kPa";
+                                //AFRText.Text = "AFR: " + output[6];
                             });
-                            Thread.Sleep(100);
+                            Thread.Sleep(5);
                         }
 
                         else
                         {
                             Thread.Sleep(100);
-                            close();
+                            //close();
+                            Finish();
                         }
                     }
                 }
             });
+        }
 
-            Thread.IsBackground = true;
+        protected override void OnResume()
+        {
+            base.OnResume();
+            //waitHandle.Set();
             Thread.Start();
         }
 
-        private void close()
+        protected override void OnPause()
         {
-            Finish();
-            MainActivity.waitHandle.Set();
-            waitHandle.Reset();
+            base.OnPause();
+            //waitHandle.Reset();
+            Thread.Abort();
         }
     }
 }

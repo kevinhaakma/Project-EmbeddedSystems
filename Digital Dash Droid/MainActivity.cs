@@ -16,14 +16,14 @@ namespace Digital_Dash_Droid
         public static Thread thread;
 
         public static EventWaitHandle waitHandle = new ManualResetEvent(initialState: true);
-
-
+        
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
             TextView statusText = FindViewById<TextView>(Resource.Id.Status);
+            Intent intent = new Intent(this, typeof(SecondActivity));
 
             thread = new Thread(() =>
             {
@@ -65,18 +65,26 @@ namespace Digital_Dash_Droid
 
                     else if (value == false)
                     {
-                        Intent intent = new Intent(this, typeof(SecondActivity));
                         Thread.Sleep(500);
                         StartActivity(intent);
                         value = true;
-                        SecondActivity.waitHandle.Set();
-                        waitHandle.Reset();
                     }
                 }
             });
+        }
 
-            thread.IsBackground = true;
+        protected override void OnResume()
+        {
+            base.OnResume();
             thread.Start();
+            //waitHandle.Set();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            thread.Abort();
+            waitHandle.Reset();
         }
     }
 }
