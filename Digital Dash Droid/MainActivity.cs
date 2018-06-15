@@ -14,6 +14,8 @@ namespace Digital_Dash_Droid
         public static Bluetooth bluetooth = new Bluetooth();
         public static Thread thread;
 
+        public static EventWaitHandle waitHandle = new ManualResetEvent(initialState: true);
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -23,10 +25,10 @@ namespace Digital_Dash_Droid
 
             thread = new Thread(() =>
             {
+                bool value = false;
                 while (true)
                 {
-                    bool value = false;
-                    if (bluetooth.GetData()[0].Contains("E") && bluetooth.GetData()[0] != null)
+                    if (bluetooth.GetData()[0].Contains("E") || bluetooth.GetData()[0] == null)
                     {
                         value = false;
                         if (bluetooth.GetData()[0].Contains("2"))
@@ -52,7 +54,7 @@ namespace Digital_Dash_Droid
 
                         else
                         {
-                            //other error
+                            Thread.Sleep(200);
                             continue;
                         }
                     }
@@ -63,6 +65,8 @@ namespace Digital_Dash_Droid
                         Thread.Sleep(500);
                         StartActivity(intent);
                         value = true;
+                        SecondActivity.waitHandle.Set();
+                        waitHandle.Reset();
                     }
                 }
             });

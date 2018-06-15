@@ -25,6 +25,7 @@ namespace Digital_Dash_Droid
         public static Thread Thread;
 
         private Bluetooth bluetooth = MainActivity.bluetooth;
+        public static EventWaitHandle waitHandle = new ManualResetEvent(initialState: true);
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -47,11 +48,12 @@ namespace Digital_Dash_Droid
                 while (true)
                 {
                     output = bluetooth.GetData();
-                    RunOnUiThread(() =>
+
+                    if (output[0] != null)
                     {
-                        if (output[0] != null)
+                        if (!output[0].Contains("E"))
                         {
-                            if(!output[0].Contains("E"))
+                            RunOnUiThread(() =>
                             {
                                 TPSText.Text = "TPS: " + output[0] + "%";
                                 RPMText.Text = "RPM: " + output[1];
@@ -60,17 +62,16 @@ namespace Digital_Dash_Droid
                                 VOLTText.Text = "VOLT: " + output[4];
                                 MAPText.Text = "MAP: " + output[5] + " kPa";
                                 AFRText.Text = "AFR: " + output[6];
-                            }
-
-                            else
-                            {
-                                Thread.Sleep(100);
-                                close();
-                            }
+                            });
+                            Thread.Sleep(100);
                         }
-                    });
 
-                    Thread.Sleep(100);
+                        else
+                        {
+                            Thread.Sleep(100);
+                            close();
+                        }
+                    }
                 }
             });
 
@@ -80,8 +81,9 @@ namespace Digital_Dash_Droid
 
         private void close()
         {
-            Thread.Abort();
             Finish();
+            MainActivity.waitHandle.Set();
+            waitHandle.Reset();
         }
     }
 }
