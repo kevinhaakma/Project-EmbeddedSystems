@@ -12,13 +12,15 @@
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar2" />
+        android:layout_height="100.5dp"
+        android:id="@+id/progressBar2"
+        android:layout_marginTop="0.0dp" />
     <TextView
         android:text="Loading..."
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Status"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="24dp" />
 </LinearLayout>

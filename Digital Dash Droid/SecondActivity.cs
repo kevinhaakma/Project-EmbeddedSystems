@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -12,7 +13,7 @@ using Android.Widget;
 
 namespace Digital_Dash_Droid
 {
-    [Activity(Label = "SecondActivity")]
+    [Activity(Label = "SecondActivity", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Landscape)]
     public class SecondActivity : Activity
     {
         private TextView TPSText;

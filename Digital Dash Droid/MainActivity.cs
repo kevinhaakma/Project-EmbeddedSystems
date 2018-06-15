@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V7.App;
@@ -8,13 +9,14 @@ using System.Threading;
 
 namespace Digital_Dash_Droid
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Landscape)]
     public class MainActivity : AppCompatActivity
     {
         public static Bluetooth bluetooth = new Bluetooth();
         public static Thread thread;
 
         public static EventWaitHandle waitHandle = new ManualResetEvent(initialState: true);
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
