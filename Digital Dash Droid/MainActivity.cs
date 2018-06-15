@@ -30,7 +30,6 @@ namespace Digital_Dash_Droid
                 while (true)
                 {
                     output = bluetooth.GetData();
-                    bool value = false;
                     if (output[0].Contains("E") && output[0] != null)
                     {
                         value = false;
