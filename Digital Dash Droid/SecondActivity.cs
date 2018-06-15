@@ -22,6 +22,7 @@ namespace Digital_Dash_Droid
         private TextView VOLTText;
         private TextView MAPText;
         private TextView AFRText;
+        public static Thread Thread;
 
         private Bluetooth bluetooth = MainActivity.bluetooth;
 
@@ -31,7 +32,7 @@ namespace Digital_Dash_Droid
 
             SetContentView(Resource.Layout.sensor_main);
 
-            string[] output = new string[7];
+            string[] output = new string[7] { "0", "0", "0", "0", "0", "0", "0" };
 
             TPSText = FindViewById<TextView>(Resource.Id.TPS);
             RPMText = FindViewById<TextView>(Resource.Id.RPM);
@@ -41,18 +42,11 @@ namespace Digital_Dash_Droid
             MAPText = FindViewById<TextView>(Resource.Id.MAP);
             AFRText = FindViewById<TextView>(Resource.Id.AFR);
 
-            Thread thread = new Thread(() =>
+            Thread = new Thread(() =>
             {
                 while (true)
                 {
                     output = bluetooth.GetData();
-                }
-            });
-
-            Thread UiThread = new Thread(() =>
-            {
-                while (true)
-                {
                     RunOnUiThread(() =>
                     {
                         if (output[0] != null)
@@ -70,10 +64,8 @@ namespace Digital_Dash_Droid
 
                             else
                             {
-                                if(!MainActivity.thread.IsAlive)
-                                    MainActivity.thread.Start();
-
-                                Finish();
+                                Thread.Sleep(100);
+                                close();
                             }
                         }
                     });
@@ -82,13 +74,14 @@ namespace Digital_Dash_Droid
                 }
             });
 
-            Thread.Sleep(1000);
+            Thread.IsBackground = true;
+            Thread.Start();
+        }
 
-            thread.IsBackground = true;
-            thread.Start();
-
-            UiThread.IsBackground = true;
-            UiThread.Start();
+        private void close()
+        {
+            Thread.Abort();
+            Finish();
         }
     }
 }

@@ -25,8 +25,10 @@ namespace Digital_Dash_Droid
             {
                 while (true)
                 {
-                    if (bluetooth.GetData()[0].Contains("E") || bluetooth.GetData()[0] == null)
+                    bool value = false;
+                    if (bluetooth.GetData()[0].Contains("E") && bluetooth.GetData()[0] != null)
                     {
+                        value = false;
                         if (bluetooth.GetData()[0].Contains("2"))
                         {
                             RunOnUiThread(() =>
@@ -55,12 +57,12 @@ namespace Digital_Dash_Droid
                         }
                     }
 
-                    else
+                    else if (value == false)
                     {
-                        var intent = new Intent(this, typeof(SecondActivity));
+                        Intent intent = new Intent(this, typeof(SecondActivity));
                         Thread.Sleep(500);
                         StartActivity(intent);
-                        Thread.CurrentThread.Abort();
+                        value = true;
                     }
                 }
             });
