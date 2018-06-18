@@ -71,20 +71,25 @@ namespace Digital_Dash_Droid
                     }
                 }
             });
+
+            thread.Start();
         }
 
         protected override void OnResume()
         {
             base.OnResume();
-            thread.Start();
+
+            if(thread.ThreadState == ThreadState.Suspended)
+                thread.Resume();
+
             //waitHandle.Set();
         }
 
         protected override void OnPause()
         {
             base.OnPause();
-            thread.Abort();
-            waitHandle.Reset();
+            thread.Suspend();
+           //waitHandle.Reset();
         }
     }
 }
