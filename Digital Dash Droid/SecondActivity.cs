@@ -59,14 +59,14 @@ namespace Digital_Dash_Droid
                         {
                             RunOnUiThread(() =>
                             {
-                                //TPSText.Text = "TPS: " + output[0] + "%";
+                                TPSText.Text = "TPS: " + output[0] + "%";
                                 progressBar.Progress = Convert.ToInt32(output[1]);
                                 RPMText.Text = "RPM: " + output[1];
-                                //IATText.Text = "IAT: " + output[2] + " °C";
-                                //VSSText.Text = "VSS: " + output[3] + " KM/H";
-                                //VOLTText.Text = "VOLT: " + output[4];
-                                //MAPText.Text = "MAP: " + output[5] + " kPa";
-                                //AFRText.Text = "AFR: " + output[6];
+                                IATText.Text = "IAT: " + output[2] + " °C";
+                                VSSText.Text = "VSS: " + output[3] + " KM/H";
+                                VOLTText.Text = "VOLT: " + output[4];
+                                MAPText.Text = "MAP: " + output[5] + " kPa";
+                                AFRText.Text = "AFR: " + output[6];
                             });
                             Thread.Sleep(5);
                         }
@@ -74,7 +74,6 @@ namespace Digital_Dash_Droid
                         else
                         {
                             Thread.Sleep(100);
-                            //close();
                             Finish();
                         }
                     }
@@ -90,15 +89,12 @@ namespace Digital_Dash_Droid
 
             if (Thread.ThreadState == ThreadState.Suspended)
                 Thread.Resume();
-
-            //waitHandle.Set();
         }
 
         protected override void OnPause()
         {
             base.OnPause();
             Thread.Suspend();
-            //waitHandle.Reset();
         }
     }
 }

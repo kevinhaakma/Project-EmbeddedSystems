@@ -81,15 +81,12 @@ namespace Digital_Dash_Droid
 
             if(thread.ThreadState == ThreadState.Suspended)
                 thread.Resume();
-
-            //waitHandle.Set();
         }
 
         protected override void OnPause()
         {
             base.OnPause();
             thread.Suspend();
-           //waitHandle.Reset();
         }
     }
 }
