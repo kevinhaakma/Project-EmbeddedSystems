@@ -8,16 +8,16 @@
    https://github.com/nickstedman/SoftwareSerialWithHalfDuplex
 
  Arduino Pin Mapping:
-
+ -  2 = Bluetooth State
+ -  8 = DLC/K-Line
  - 10 = Bluetooth Recieve
- - 11 = Bluetooth Transmit
- - 13 = DLC/K-Line
+ - 11 = Bluetooth Transmit 
 */
 
 #include <SoftwareSerialWithHalfDuplex.h>
 
 SoftwareSerialWithHalfDuplex btSerial(10, 11); // Sets Recieve and Transmit pins for HC-05
-SoftwareSerialWithHalfDuplex dlcSerial(13, 13, false, false); // Sets Recieve and Transmit pin for DLC/K-Line
+SoftwareSerialWithHalfDuplex dlcSerial(8, 8, false, false); // Sets Recieve and Transmit pin for DLC/K-Line
 
 byte obd_select = 2; // 1 = obd1, 2 = obd2
 
@@ -74,18 +74,7 @@ int dlcCommand(byte cmd, byte num, byte loc, byte len, byte data[]) {
     return 0; // data error
   }
   return 1; // success
-}
-
-/* Useful Constants */
-#define SECS_PER_MIN  (60UL)
-#define SECS_PER_HOUR (3600UL)
-#define SECS_PER_DAY  (SECS_PER_HOUR * 24L)
-
-/* Useful Macros for getting elapsed time */
-#define numberOfSeconds(_time_) (_time_ % SECS_PER_MIN)  
-#define numberOfMinutes(_time_) ((_time_ / SECS_PER_MIN) % SECS_PER_MIN) 
-#define numberOfHours(_time_) (( _time_% SECS_PER_DAY) / SECS_PER_HOUR)
-#define elapsedDays(_time_) ( _time_ / SECS_PER_DAY)  
+} 
 
 void procdlcSerial() {
   static unsigned long msTick = millis();
@@ -99,11 +88,10 @@ void procdlcSerial() {
     //byte h_cmd3[6] = {0x20,0x05,0x20,0x10,0xab}; // row 3
     //byte h_cmd4[6] = {0x20,0x05,0x76,0x0a,0x5b}; // ecu id
     byte data[20];
-    static int rpm=0,iat=0,maps=0,tps=0,afr=0,volt=0,imap=0;
+    static int tps=0,rpm=0,iat=0,vss=0,volt=0,maps=0,afr=0;
     
-    //static int ect=0,sft=0,lft=0,inj=0,ign=0,lmt=0,iac=0,knoc=0,baro=0;
+    //static int ect=0,sft=0,lft=0,inj=0,ign=0,lmt=0,iac=0,knoc=0,baro=0,imap=0;;
     //static unsigned long vsssum=0,running_time=0,idle_time=0,distance=0;
-    static byte vss=0;
 
     memset(data, 0, 20);
     if (dlcCommand(0x20,0x05,0x00,0x10,data)) { // row 1
@@ -181,7 +169,7 @@ void procdlcSerial() {
     // (gallons of fuel) = (grams of air) / (air/fuel ratio) / 6.17 / 454
     //gof = maf / afr / 6.17 / 454;
     //gear = vss / (rpm+1) * 150 + 0.3;
-    
+
       String output = String((String)tps + ";" + (String)rpm + ";" + (String)iat + ";" + (String)vss + ";" + (String)volt + ";" + (String)maps + ";" + (String)afr);
       Serial.println(output); // debugging
       btSerial.println(output); // sends the output string towards BTclient (format: "0;0;0;0;0;0;0")
@@ -190,30 +178,23 @@ void procdlcSerial() {
 
 void setup()
 {
-  pinMode(2,INPUT); //Connection state from HC-05
-  int count = 0;
-  
-  Serial.begin(115200); // debugging
+  pinMode(2,INPUT); //init Connection state from HC-05
+   
   btSerial.begin(9600); // start serial connection to HC-05
   dlcSerial.begin(9600); // start serial connection to ECU/K-Line
+  Serial.begin(115200); // debugging
   delay(1000); // gives serial begins time to start
   dlcInit(); // starts the initialization to the ECU
 }
 
-int count = 0;
 void loop() {
   if(digitalRead(2) == 1) // Checks if a BTclient is connected
   {
-    if(digitalRead(13) == 1) // Checks if K-line connection is available
       procdlcSerial(); // Starts Requesting ECU for data
-    else{
-      btSerial.println("DLC_not_available" + (String)count++); // debugging
-      Serial.println("DLC not available"); // debugging
-      delay(5000);} // Small timeout to stop arduino from checking every few ms
   }
   else{
-    Serial.println("No BTclient"); // debugging
-    delay(5000); // Small timeout to stop arduino from checking every few ms
+    Serial.println("NoBTC"); // NO BT Client debugging
+    delay(1000); // Small timeout when no Client is connected
     }
 }
 
