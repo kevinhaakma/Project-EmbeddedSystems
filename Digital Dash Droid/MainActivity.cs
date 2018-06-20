@@ -13,9 +13,7 @@ namespace Digital_Dash_Droid
     public class MainActivity : AppCompatActivity
     {
         public static Bluetooth bluetooth = new Bluetooth();
-        public static Thread thread;
-
-        public static EventWaitHandle waitHandle = new ManualResetEvent(initialState: true);
+        private static Thread thread;
         
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -27,47 +25,30 @@ namespace Digital_Dash_Droid
 
             thread = new Thread(() =>
             {
-                bool value = false;
-                string[] output = new string[7];
+                string[] output = new string[7] { "0", "0", "0", "0", "0", "0", "0" };
                 while (true)
                 {
                     output = bluetooth.GetData();
-                    if (output[0].Contains("E") && output[0] != null)
-                    {
-                        value = false;
-                        if (output[0].Contains("2"))
-                        {
-                            RunOnUiThread(() =>
-                            {
-                                //no dlc connected
-                                statusText.Text = "No Data-Link connected";
-                                statusText.SetTextColor(Color.Red);
-                            });
-                            Thread.Sleep(100);
-                        }
+                    Thread.Sleep(10);
 
-                        else if (output[0].Contains("3"))
+                    if (output[0] != null && output[0] != "")
+                    {
+                        if (output[4] == "0")
                         {
                             RunOnUiThread(() =>
                             {
-                                statusText.Text = "Please turn on your vehicle";
-                                statusText.SetTextColor(Color.Orange);
+                            //no dlc connected
+                            statusText.Text = "No Data-Link connected / Turn key to ignition";
+                                statusText.SetTextColor(Color.Red);
                             });
                             Thread.Sleep(100);
                         }
 
                         else
                         {
-                            Thread.Sleep(200);
-                            continue;
+                            Thread.Sleep(500);
+                            StartActivity(intent);
                         }
-                    }
-
-                    else if (value == false)
-                    {
-                        Thread.Sleep(500);
-                        StartActivity(intent);
-                        value = true;
                     }
                 }
             });
