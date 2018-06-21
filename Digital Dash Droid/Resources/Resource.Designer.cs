@@ -2663,11 +2663,11 @@ namespace Digital_Dash_Droid
 			// aapt resource value: 0x7f08004d
 			public const int pin = 2131230797;
 			
+			// aapt resource value: 0x7f08008c
+			public const int progressBar = 2131230860;
+			
 			// aapt resource value: 0x7f0800b1
 			public const int progressBar1 = 2131230897;
-			
-			// aapt resource value: 0x7f08008c
-			public const int progressBar2 = 2131230860;
 			
 			// aapt resource value: 0x7f080006
 			public const int progress_circular = 2131230726;

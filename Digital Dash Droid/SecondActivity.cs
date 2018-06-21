@@ -42,12 +42,21 @@ namespace Digital_Dash_Droid
                 string[] output = new string[7] { "0", "0", "0", "0", "0", "0", "0" };
                 while (true)
                 {
-                    output = bluetooth.GetData();
+                    try
+                    {
+                        output = bluetooth.GetData();
+                    }
+
+                    catch
+                    {
+                        Finish();
+                    }
+
                     Thread.Sleep(10);
 
                     if (output[0] != null && output[0] != "")
                     {
-                        if (output[4] != "0")
+                        if (output[4] != "0" && output[4] != "-1")
                         {
                             RunOnUiThread(() =>
                             {

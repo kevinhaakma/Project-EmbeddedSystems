@@ -40,13 +40,21 @@ namespace Digital_Dash_Droid
 
             BluetoothSocket tmp = result.CreateInsecureRfcommSocketToServiceRecord(uuid);
             socket = tmp;
-            
-            socket.Connect();
 
-            btAdapter.CancelDiscovery();
+            try
+            {
+                socket.Connect();
 
-            InStream = new InputStreamReader(socket.InputStream);
-            buffer = new BufferedReader(InStream);
+                btAdapter.CancelDiscovery();
+
+                InStream = new InputStreamReader(socket.InputStream);
+                buffer = new BufferedReader(InStream);
+            }
+
+            catch
+            {
+
+            }
         }
 
         public bool IsConnected()
@@ -56,7 +64,16 @@ namespace Digital_Dash_Droid
 
         public string[] GetData()
         {
-            return buffer.ReadLine().Split(';');
+            try
+            {
+                return buffer.ReadLine().Split(';');
+            }
+
+            catch
+            {
+                string[] temp = new string[7] { "-1", "-1", "-1", "-1", "-1", "-1", "-1" };
+                return temp;
+            }
         }
     }
 }

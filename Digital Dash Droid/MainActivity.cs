@@ -14,7 +14,8 @@ namespace Digital_Dash_Droid
     {
         public static Bluetooth bluetooth = new Bluetooth();
         private static Thread thread;
-        
+        private int bt = 0;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -28,27 +29,87 @@ namespace Digital_Dash_Droid
                 string[] output = new string[7] { "0", "0", "0", "0", "0", "0", "0" };
                 while (true)
                 {
-                    output = bluetooth.GetData();
-                    Thread.Sleep(10);
-
-                    if (output[0] != null && output[0] != "")
+                    if (bluetooth.IsConnected())
                     {
-                        if (output[4] == "0")
-                        {
-                            RunOnUiThread(() =>
-                            {
-                            //no dlc connected
-                            statusText.Text = "No Data-Link connected / Turn key to ignition";
-                                statusText.SetTextColor(Color.Red);
-                            });
-                            Thread.Sleep(100);
-                        }
+                        output = bluetooth.GetData();
+                        Thread.Sleep(10);
 
-                        else
+                        if (output[0] != null && output[0] != "")
                         {
-                            Thread.Sleep(500);
-                            StartActivity(intent);
+                            if (output[4] == "0")
+                            {
+                                RunOnUiThread(() =>
+                                {
+                                    bt++;
+                                    if (bt % 3 == 1)
+                                    {
+                                        //no dlc connected
+                                        statusText.Text = "No Data-Link connected / Turn key to ignition (•_•)";
+                                        statusText.SetTextColor(Color.Red);
+                                    }
+
+                                    else if (bt % 3 == 0)
+                                    {
+                                        //no dlc connected
+                                        statusText.Text = "No Data-Link connected / Turn key to ignition ( •_•)>⌐■-■";
+                                        statusText.SetTextColor(Color.Red);
+                                    }
+
+                                    else
+                                    {
+                                        //no dlc connected
+                                        statusText.Text = "No Data-Link connected / Turn key to ignition (⌐■_■)";
+                                        statusText.SetTextColor(Color.Red);
+                                    }
+                                });
+                                Thread.Sleep(100);
+                            }
+
+                            else if (output[4] == "-1")
+                            {
+                                RunOnUiThread(() =>
+                                {
+                                    bt++;
+                                    if(bt % 2 == 0)
+                                    {
+                                        statusText.Text = "No Bluetooth Connection ~(˘▾˘~)";
+                                        statusText.SetTextColor(Color.LightBlue);
+                                    }
+                                    else
+                                    {
+                                        statusText.Text = "No Bluetooth Connection (~˘▾˘)~";
+                                        statusText.SetTextColor(Color.LightBlue);
+                                    }
+                                });
+                                bluetooth = new Bluetooth();
+                                Thread.Sleep(5);
+                            }
+
+                            else
+                            {
+                                Thread.Sleep(500);
+                                StartActivity(intent);
+                            }
                         }
+                    }
+                    else
+                    {
+                        RunOnUiThread(() =>
+                        {
+                            bt++;
+                            if (bt % 2 == 0)
+                            {
+                                statusText.Text = "No Bluetooth Connection (~˘▾˘)~";
+                                statusText.SetTextColor(Color.LightBlue);
+                            }
+                            else
+                            {
+                                statusText.Text = "No Bluetooth Connection ~(˘▾˘~)";
+                                statusText.SetTextColor(Color.LightBlue);
+                            }
+                        });
+                        bluetooth = new Bluetooth();
+                        Thread.Sleep(5);
                     }
                 }
             });
