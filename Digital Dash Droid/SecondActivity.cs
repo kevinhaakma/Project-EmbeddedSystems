@@ -6,6 +6,7 @@ using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -16,9 +17,17 @@ namespace Digital_Dash_Droid
     [Activity(Label = "SecondActivity", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Landscape)]
     public class SecondActivity : Activity
     {
-        private static Thread Thread;
+        private TextView TPSText;
+        private TextView RPMText;
+        private TextView IATText;
+        private TextView VSSText;
+        private TextView VOLTText;
+        private TextView MAPText;
+        private TextView AFRText;
+        public static Thread Thread;
 
         private Bluetooth bluetooth = MainActivity.bluetooth;
+        public static EventWaitHandle waitHandle = new ManualResetEvent(initialState: true);
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -26,48 +35,58 @@ namespace Digital_Dash_Droid
 
             SetContentView(Resource.Layout.sensor_main);
 
-            TextView TPSText = FindViewById<TextView>(Resource.Id.TPS);
-            TextView RPMText = FindViewById<TextView>(Resource.Id.RPM);
-            TextView IATText = FindViewById<TextView>(Resource.Id.IAT);
-            TextView VSSText = FindViewById<TextView>(Resource.Id.VSS);
-            TextView VOLTText = FindViewById<TextView>(Resource.Id.VOLT);
-            TextView MAPText = FindViewById<TextView>(Resource.Id.MAP);
-            TextView AFRText = FindViewById<TextView>(Resource.Id.AFR);
+            string[] output = new string[7] { "0", "0", "0", "0", "0", "0", "0" };
+
+            TPSText = FindViewById<TextView>(Resource.Id.TPS);
+            RPMText = FindViewById<TextView>(Resource.Id.RPM);
+            IATText = FindViewById<TextView>(Resource.Id.IAT);
+            VSSText = FindViewById<TextView>(Resource.Id.VSS);
+            VOLTText = FindViewById<TextView>(Resource.Id.VOLT);
+            MAPText = FindViewById<TextView>(Resource.Id.MAP);
+            AFRText = FindViewById<TextView>(Resource.Id.AFR);
 
             ProgressBar progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar1);
             progressBar.Max = 7000;
 
             Thread = new Thread(() =>
             {
-                string[] output = new string[7] { "0", "0", "0", "0", "0", "0", "0" };
                 while (true)
                 {
-                    try
-                    {
-                        output = bluetooth.GetData();
-                    }
+                    output = bluetooth.GetData();
 
-                    catch
+                    if (output[0] != null)
                     {
-                        Finish();
-                    }
-
-                    Thread.Sleep(10);
-
-                    if (output[0] != null && output[0] != "")
-                    {
-                        if (output[4] != "0" && output[4] != "-1")
+                        if (!output[0].Contains("E"))
                         {
                             RunOnUiThread(() =>
                             {
                                 TPSText.Text = "TPS: " + output[0] + "%";
                                 progressBar.Progress = Convert.ToInt32(output[1]);
+
+                                int rpm = Convert.ToInt32(output[1]);
                                 RPMText.Text = "RPM: " + output[1];
+
+                                if (rpm >= 6000)
+                                    AFRText.SetTextColor(Color.Red);
+                                else if (rpm >= 5500)
+                                    AFRText.SetTextColor(Color.Yellow);
+                                else
+                                    AFRText.SetTextColor(Color.Green);
+
+
                                 IATText.Text = "IAT: " + output[2] + " °C";
                                 VSSText.Text = "VSS: " + output[3] + " KM/H";
                                 VOLTText.Text = "VOLT: " + output[4];
                                 MAPText.Text = "MAP: " + output[5] + " kPa";
-                                AFRText.Text = "AFR: " + output[6];
+
+                                double afr = Convert.ToDouble(output[6]);
+                                AFRText.Text = "AFR: " + Convert.ToString(afr / 10);
+
+                                if (afr <= 100 || afr >= 160)
+                                    AFRText.SetTextColor(Color.Yellow);
+                                else
+                                    AFRText.SetTextColor(Color.Green);
+
                             });
                             Thread.Sleep(5);
                         }
