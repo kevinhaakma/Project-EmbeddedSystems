@@ -56,7 +56,7 @@ namespace Digital_Dash_Droid
 
                     if (output[0] != null)
                     {
-                        if (!output[0].Contains("E"))
+                        if (output[4] == "0")
                         {
                             RunOnUiThread(() =>
                             {
@@ -67,16 +67,40 @@ namespace Digital_Dash_Droid
                                 RPMText.Text = "RPM: " + output[1];
 
                                 if (rpm >= 6000)
-                                    AFRText.SetTextColor(Color.Red);
-                                else if (rpm >= 5500)
-                                    AFRText.SetTextColor(Color.Yellow);
+                                {
+                                    progressBar.SetBackgroundColor(Color.Red);
+                                    RPMText.SetTextColor(Color.Red);
+                                }
+                                else if (rpm >= 5000)
+                                {
+                                    RPMText.SetTextColor(Color.Yellow);
+                                    progressBar.SetBackgroundColor(Color.Yellow);
+                                }
+
                                 else
-                                    AFRText.SetTextColor(Color.Green);
+                                {
+                                    RPMText.SetTextColor(Color.Green);
+                                    progressBar.SetBackgroundColor(Color.Green);
+                                }
+
 
 
                                 IATText.Text = "IAT: " + output[2] + " °C";
                                 VSSText.Text = "VSS: " + output[3] + " KM/H";
-                                VOLTText.Text = "VOLT: " + output[4];
+
+                                double volt = Convert.ToDouble(output[4]);
+                                VOLTText.Text = "VOLT: " + Convert.ToString(volt / 10);
+
+                                if(volt >= 135)
+                                    VOLTText.SetTextColor(Color.Green);
+
+                                else if(volt >= 120)
+                                    VOLTText.SetTextColor(Color.Yellow);
+
+                                else
+                                    VOLTText.SetTextColor(Color.Red);
+
+
                                 MAPText.Text = "MAP: " + output[5] + " kPa";
 
                                 double afr = Convert.ToDouble(output[6]);
