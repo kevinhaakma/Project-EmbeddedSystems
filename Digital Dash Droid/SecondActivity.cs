@@ -56,7 +56,7 @@ namespace Digital_Dash_Droid
 
                     if (output[0] != null)
                     {
-                        if (output[4] == "0")
+                        if (output[4] != "0")
                         {
                             RunOnUiThread(() =>
                             {
@@ -82,7 +82,6 @@ namespace Digital_Dash_Droid
                                     RPMText.SetTextColor(Color.Green);
                                     progressBar.SetBackgroundColor(Color.Green);
                                 }
-
 
 
                                 IATText.Text = "IAT: " + output[2] + " °C";
