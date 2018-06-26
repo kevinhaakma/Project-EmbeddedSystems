@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <TextView
+        android:text="TPS"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TPS"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
+    <TextView
+        android:text="RPM"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/RPM"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar1" />
+    <TextView
+        android:text="IAT"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/IAT"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
+    <TextView
+        android:text="VSS"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/VSS"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
+    <TextView
+        android:text="VOLT"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/VOLT"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
+    <TextView
+        android:text="MAP"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/MAP"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
+    <TextView
+        android:text="AFR"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/AFR"
+        android:textSize="24dp"
+        android:textColor="#ffffffff" />
+</LinearLayout>
