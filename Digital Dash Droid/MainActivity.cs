@@ -14,7 +14,7 @@ namespace Digital_Dash_Droid
     {
         public static Bluetooth bluetooth = new Bluetooth();
         private static Thread thread;
-        private int bt = 0;
+        private byte bt = 0;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
