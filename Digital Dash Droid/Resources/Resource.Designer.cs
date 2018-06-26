@@ -2324,8 +2324,8 @@ namespace Digital_Dash_Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0800b6
-			public const int AFR = 2131230902;
+			// aapt resource value: 0x7f0800b8
+			public const int AFR = 2131230904;
 			
 			// aapt resource value: 0x7f080032
 			public const int ALT = 2131230770;
@@ -2336,17 +2336,17 @@ namespace Digital_Dash_Droid
 			// aapt resource value: 0x7f080034
 			public const int FUNCTION = 2131230772;
 			
-			// aapt resource value: 0x7f0800b2
-			public const int IAT = 2131230898;
+			// aapt resource value: 0x7f0800b4
+			public const int IAT = 2131230900;
 			
-			// aapt resource value: 0x7f0800b5
-			public const int MAP = 2131230901;
+			// aapt resource value: 0x7f0800b2
+			public const int MAP = 2131230898;
 			
 			// aapt resource value: 0x7f080035
 			public const int META = 2131230773;
 			
-			// aapt resource value: 0x7f0800b0
-			public const int RPM = 2131230896;
+			// aapt resource value: 0x7f0800b6
+			public const int RPM = 2131230902;
 			
 			// aapt resource value: 0x7f080036
 			public const int SHIFT = 2131230774;
@@ -2357,14 +2357,14 @@ namespace Digital_Dash_Droid
 			// aapt resource value: 0x7f08008d
 			public const int Status = 2131230861;
 			
-			// aapt resource value: 0x7f0800af
-			public const int TPS = 2131230895;
-			
-			// aapt resource value: 0x7f0800b4
-			public const int VOLT = 2131230900;
+			// aapt resource value: 0x7f0800b0
+			public const int TPS = 2131230896;
 			
 			// aapt resource value: 0x7f0800b3
-			public const int VSS = 2131230899;
+			public const int VOLT = 2131230899;
+			
+			// aapt resource value: 0x7f0800b5
+			public const int VSS = 2131230901;
 			
 			// aapt resource value: 0x7f08009f
 			public const int action0 = 2131230879;
@@ -2612,14 +2612,14 @@ namespace Digital_Dash_Droid
 			// aapt resource value: 0x7f080061
 			public const int list_item = 2131230817;
 			
-			// aapt resource value: 0x7f0800b9
-			public const int masked = 2131230905;
+			// aapt resource value: 0x7f0800bb
+			public const int masked = 2131230907;
 			
 			// aapt resource value: 0x7f0800a2
 			public const int media_actions = 2131230882;
 			
-			// aapt resource value: 0x7f0800b7
-			public const int message = 2131230903;
+			// aapt resource value: 0x7f0800b9
+			public const int message = 2131230905;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -2666,8 +2666,8 @@ namespace Digital_Dash_Droid
 			// aapt resource value: 0x7f08008c
 			public const int progressBar = 2131230860;
 			
-			// aapt resource value: 0x7f0800b1
-			public const int progressBar1 = 2131230897;
+			// aapt resource value: 0x7f0800b7
+			public const int progressBar1 = 2131230903;
 			
 			// aapt resource value: 0x7f080006
 			public const int progress_circular = 2131230726;
@@ -2677,6 +2677,9 @@ namespace Digital_Dash_Droid
 			
 			// aapt resource value: 0x7f080075
 			public const int radio = 2131230837;
+			
+			// aapt resource value: 0x7f0800af
+			public const int relativeLayout1 = 2131230895;
 			
 			// aapt resource value: 0x7f08004a
 			public const int right = 2131230794;
@@ -2770,6 +2773,9 @@ namespace Digital_Dash_Droid
 			
 			// aapt resource value: 0x7f080043
 			public const int snap = 2131230787;
+			
+			// aapt resource value: 0x7f0800b1
+			public const int space = 2131230897;
 			
 			// aapt resource value: 0x7f080064
 			public const int spacer = 2131230820;
@@ -2873,8 +2879,8 @@ namespace Digital_Dash_Droid
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800b8
-			public const int visible = 2131230904;
+			// aapt resource value: 0x7f0800ba
+			public const int visible = 2131230906;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;
